@@ -41,15 +41,19 @@ public class TarefaService {
         return true;
     }
     public void deletarTarefa(Long id) {
-        Tarefa tarefa = buscarTarefaPorId(id);
+        Tarefa tarefa = buscarTarefaEntidadePorId(id);
         tarefaRepository.deleteById(id);
     }
-    public Tarefa buscarTarefaPorId(Long id) {
+    private Tarefa buscarTarefaEntidadePorId(Long id) {
         return tarefaRepository.findById(id)
                 .orElseThrow(() -> new TarefaNaoEncontradaException("A tarefa não foi encontrada"));
     }
-    public Tarefa atualizarTarefa(Long id, TarefaDTO tarefaDTO) {
-       Tarefa tarefa = buscarTarefaPorId(id);
+    public TarefaResponseDTO buscarTarefaPorId(Long id) {
+        Tarefa tarefa = buscarTarefaEntidadePorId(id);
+        return new TarefaResponseDTO(tarefa);
+    }
+    public TarefaResponseDTO atualizarTarefa(Long id, TarefaDTO tarefaDTO) {
+       Tarefa tarefa = buscarTarefaEntidadePorId(id);
        tarefa.setTitulo(tarefaDTO.titulo());
        tarefa.setStatus(tarefaDTO.statusTarefa());
        tarefa.setPrioridade(tarefaDTO.prioridade());
@@ -57,7 +61,9 @@ public class TarefaService {
        tarefa.setDescricao(tarefaDTO.descricao());
        tarefa.setPrazo(tarefaDTO.prazo());
        tarefa.setResponsavel(tarefaDTO.responsavel());
-       return tarefaRepository.save(tarefa);
+       tarefaRepository.save(tarefa);
+       TarefaResponseDTO tarefaResponseDTO = new TarefaResponseDTO(tarefa);
+        return tarefaResponseDTO;
     }
     public List<Tarefa> buscarTarefas() {
         return tarefaRepository.findAll();

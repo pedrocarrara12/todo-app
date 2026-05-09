@@ -34,6 +34,29 @@ public class TarefaController {
        TarefaResponseDTO tarefaResponseDTO  = tarefaService.criarTarefa(tarefaDTO);
        return ResponseEntity.status(HttpStatus.CREATED).body(tarefaResponseDTO);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarTarefa(@PathVariable Long id) {
+        tarefaService.deletarTarefa(id);
+        return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<TarefaResponseDTO> buscarTarefaPorId(@PathVariable Long id) {
+        TarefaResponseDTO tarefaResponseDTO = tarefaService.buscarTarefaPorId(id);
+        return ResponseEntity.ok(tarefaResponseDTO);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<TarefaResponseDTO> atualizarTarefa (@PathVariable Long id,
+                                                              @RequestBody TarefaDTO tarefaDTO){
+       TarefaResponseDTO tarefaResponseDTO = tarefaService.atualizarTarefa(id,tarefaDTO);
+        return ResponseEntity.ok(tarefaResponseDTO);
+    }
+    @DeleteMapping("/todos")
+    public ResponseEntity<Void> deletarTodasTarefas() {
+        tarefaService.deletarTodasTarefas();
+        return ResponseEntity.noContent().build();
+    }
+
+
 
 
 

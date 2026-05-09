@@ -28,8 +28,7 @@ public class Tarefa {
     @Column(nullable = false)
     private StatusTarefa status;
 
-    @Column(nullable = false)
-    private Boolean concluida;
+
 
     private LocalDate prazo;
 
@@ -91,14 +90,6 @@ public class Tarefa {
 
     public void setStatus(StatusTarefa status) {
         this.status = status;
-    }
-
-    public Boolean getConcluida() {
-        return concluida;
-    }
-
-    public void setConcluida(Boolean concluida) {
-        this.concluida = concluida;
     }
 
     public LocalDate getPrazo() {
