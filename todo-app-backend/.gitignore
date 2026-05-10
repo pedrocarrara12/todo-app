@@ -5,8 +5,8 @@ target/
 !**/src/test/**/target/
 
 # Local Spring Boot config
-todo-app-backend/src/main/resources/application.properties
-todo-app-backend/src/main/resources/application-local.properties
+/src/main/resources/application.properties
+/src/main/resources/application-local.properties
 .env
 *.env
 
