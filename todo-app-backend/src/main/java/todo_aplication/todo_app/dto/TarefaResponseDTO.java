@@ -6,6 +6,7 @@ import todo_aplication.todo_app.enums.Prioridade;
 import todo_aplication.todo_app.enums.StatusTarefa;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record TarefaResponseDTO(
         Long id,
@@ -15,7 +16,9 @@ public record TarefaResponseDTO(
         Prioridade prioridade,
         Categoria categoria,
         LocalDate prazo,
-        String responsavel
+        String responsavel,
+        LocalDateTime dataCriacao,
+        LocalDateTime dataAtualizacao
 ) {
     public TarefaResponseDTO(Tarefa tarefa) {
         this(
@@ -26,9 +29,9 @@ public record TarefaResponseDTO(
                 tarefa.getPrioridade(),
                 tarefa.getCategoria(),
                 tarefa.getPrazo(),
-                tarefa.getResponsavel()
+                tarefa.getResponsavel(),
+                tarefa.getDataCriacao(),
+                tarefa.getDataAtualizacao()
         );
     }
-
-
 }

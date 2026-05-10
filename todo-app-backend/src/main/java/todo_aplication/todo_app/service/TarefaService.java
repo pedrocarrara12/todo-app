@@ -53,6 +53,7 @@ public class TarefaService {
         return new TarefaResponseDTO(tarefa);
     }
     public TarefaResponseDTO atualizarTarefa(Long id, TarefaDTO tarefaDTO) {
+       validaDTO(tarefaDTO);
        Tarefa tarefa = buscarTarefaEntidadePorId(id);
        tarefa.setTitulo(tarefaDTO.titulo());
        tarefa.setStatus(tarefaDTO.statusTarefa());

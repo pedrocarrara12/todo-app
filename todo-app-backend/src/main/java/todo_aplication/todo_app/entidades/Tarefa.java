@@ -1,7 +1,14 @@
 package todo_aplication.todo_app.entidades;
 
-
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.NotBlank;
 import todo_aplication.todo_app.enums.Categoria;
 import todo_aplication.todo_app.enums.Prioridade;
@@ -11,13 +18,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-
 public class Tarefa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O título é obrigatório")
+    @NotBlank(message = "O titulo e obrigatorio")
     @Column(nullable = false)
     private String titulo;
 
@@ -28,10 +34,9 @@ public class Tarefa {
     @Column(nullable = false)
     private StatusTarefa status;
 
-
-
     private LocalDate prazo;
 
+    @Column(updatable = false)
     private LocalDateTime dataCriacao;
 
     private LocalDateTime dataAtualizacao;
@@ -46,12 +51,15 @@ public class Tarefa {
 
     private String responsavel;
 
+    protected Tarefa() {
+    }
+
     public Tarefa(Long id) {
         this.id = id;
     }
 
     public Tarefa(String titulo, StatusTarefa status, Prioridade prioridade,
-                  Categoria categoria,  String descricao, LocalDate prazo,
+                  Categoria categoria, String descricao, LocalDate prazo,
                   String responsavel) {
         this.titulo = titulo;
         this.status = status;
@@ -59,14 +67,22 @@ public class Tarefa {
         this.categoria = categoria;
         this.descricao = descricao;
         this.prazo = prazo;
-        dataCriacao = LocalDateTime.now();
         this.responsavel = responsavel;
+    }
+
+    @PrePersist
+    private void prePersist() {
+        dataCriacao = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void preUpdate() {
+        dataAtualizacao = LocalDateTime.now();
     }
 
     public Long getId() {
         return id;
     }
-
 
     public String getTitulo() {
         return titulo;
