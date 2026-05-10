@@ -65,42 +65,54 @@ public class TarefaService {
        TarefaResponseDTO tarefaResponseDTO = new TarefaResponseDTO(tarefa);
         return tarefaResponseDTO;
     }
-    public List<Tarefa> buscarTarefas() {
-        return tarefaRepository.findAll();
+    public List<TarefaResponseDTO> buscarTarefas() {
+        List<Tarefa> list = tarefaRepository.findAll();
+        List<TarefaResponseDTO> tarefaResponseDTOList = list.stream().map(
+                TarefaResponseDTO::new).toList();
+        return tarefaResponseDTOList;
     }
     public void deletarTodasTarefas() {
         tarefaRepository.deleteAll();
     }
-    public List<Tarefa> buscarTarefasPorPrioridade(Prioridade prioridade) {
+    public List<TarefaResponseDTO> buscarTarefasPorPrioridade(Prioridade prioridade) {
         if (prioridade == null) {
             throw new IllegalArgumentException("A prioridade é obrigatória");
         }
-
-        return tarefaRepository.findByPrioridade(prioridade);
+        List<Tarefa> tarefas = tarefaRepository.findByPrioridade(prioridade);
+        List<TarefaResponseDTO> tarefaResponseDTOList = tarefas.stream().map(
+                TarefaResponseDTO::new).toList();
+        return tarefaResponseDTOList;
     }
-    public List<Tarefa> buscarTarefasPorStatus(StatusTarefa statusTarefa) {
+    public List<TarefaResponseDTO> buscarTarefasPorStatus(StatusTarefa statusTarefa) {
         if (statusTarefa == null) {
             throw new IllegalArgumentException("O status da tarefa é obrigatório");
         }
+         List<Tarefa> tarefas = tarefaRepository.findByStatus(statusTarefa);
+        List<TarefaResponseDTO> tarefaResponseDTOList = tarefas.stream().map(
+                TarefaResponseDTO::new).toList();
+        return tarefaResponseDTOList;
 
-        return tarefaRepository.findByStatus(statusTarefa);
     }
-    public List<Tarefa> buscarTarefasPorResponsavel(String responsavel) {
+    public List<TarefaResponseDTO> buscarTarefasPorResponsavel(String responsavel) {
         if (responsavel == null || responsavel.isBlank()) {
             throw new IllegalArgumentException("O responsável é obrigatório");
         }
 
-        return tarefaRepository.findByResponsavelContainingIgnoreCase(responsavel);
+        return tarefaRepository.findByResponsavelContainingIgnoreCase(responsavel)
+                .stream()
+                .map(TarefaResponseDTO::new)
+                .toList();
     }
-    public List<Tarefa> buscarTarefasPorTitulo(String titulo) {
+
+    public List<TarefaResponseDTO> buscarTarefasPorTitulo(String titulo) {
         if (titulo == null || titulo.isBlank()) {
             throw new IllegalArgumentException("O título da tarefa é obrigatório");
         }
 
-        return tarefaRepository.findByTituloContainingIgnoreCase(titulo);
+        return tarefaRepository.findByTituloContainingIgnoreCase(titulo)
+                .stream()
+                .map(TarefaResponseDTO::new)
+                .toList();
     }
-
-
-
 
     }

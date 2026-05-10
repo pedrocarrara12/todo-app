@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import todo_aplication.todo_app.dto.TarefaDTO;
 import todo_aplication.todo_app.dto.TarefaResponseDTO;
 import todo_aplication.todo_app.entidades.Tarefa;
+import todo_aplication.todo_app.enums.Prioridade;
+import todo_aplication.todo_app.enums.StatusTarefa;
 import todo_aplication.todo_app.service.TarefaService;
 
 import java.util.List;
@@ -24,10 +26,8 @@ public class TarefaController {
 
     @GetMapping
     public List<TarefaResponseDTO> listarTarefas() {
-        List<Tarefa> tarefaEntity = tarefaService.buscarTarefas();
-         List<TarefaResponseDTO> tarefaResponseDTOList = tarefaEntity.stream().map(
-                TarefaResponseDTO::new).toList();
-         return tarefaResponseDTOList;
+      return  tarefaService.buscarTarefas();
+
     }
     @PostMapping
     public ResponseEntity<TarefaResponseDTO> criarTarefa(@RequestBody TarefaDTO tarefaDTO) {
@@ -55,8 +55,40 @@ public class TarefaController {
         tarefaService.deletarTodasTarefas();
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/prioridade/{prioridade}")
+    public ResponseEntity<List<TarefaResponseDTO>> buscarTarefaPorPrioridade(
+            @PathVariable Prioridade prioridade
+    ) {
+        List<TarefaResponseDTO> tarefaResponseDTOList = tarefaService.buscarTarefasPorPrioridade(prioridade);
+        return ResponseEntity.ok(tarefaResponseDTOList);
 
+    }
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<TarefaResponseDTO>> buscaTarefaPorStatus(@PathVariable StatusTarefa statusTarefa)
 
+    {
+        List<TarefaResponseDTO> tarefaResponseDTOList = tarefaService.buscarTarefasPorStatus(statusTarefa);
+        return ResponseEntity.ok(tarefaResponseDTOList);
+
+    }
+    @GetMapping("/responsavel/{responsavel}")
+    public ResponseEntity<List<TarefaResponseDTO>> buscaTarefaPorResponsavel(
+            @PathVariable String responsavel
+    ) {
+        List<TarefaResponseDTO> tarefaResponseDTOList =
+                tarefaService.buscarTarefasPorResponsavel(responsavel);
+
+        return ResponseEntity.ok(tarefaResponseDTOList);
+    }
+    @GetMapping("/titulo/{titulo}")
+    public ResponseEntity<List<TarefaResponseDTO>> buscaTarefaPorTitulo(
+            @PathVariable String titulo
+    ) {
+        List<TarefaResponseDTO> tarefaResponseDTOList =
+                tarefaService.buscarTarefasPorTitulo(titulo);
+
+        return ResponseEntity.ok(tarefaResponseDTOList);
+    }
 
 
 
