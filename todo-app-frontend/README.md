@@ -25,6 +25,24 @@ node server.js
 
 3. Acesse `http://localhost:5173`.
 
+## Configuração opcional
+
+Por padrão, o servidor usa a porta `5173` e redireciona `/api` para `http://localhost:8080`.
+
+Para alterar esses valores:
+
+```bash
+PORT=3000 BACKEND_URL=http://localhost:8080 npm run dev
+```
+
+No Windows PowerShell:
+
+```powershell
+$env:PORT="3000"
+$env:BACKEND_URL="http://localhost:8080"
+npm run dev
+```
+
 ## Contrato da API usado
 
 Base interna do front:
@@ -33,7 +51,7 @@ Base interna do front:
 const API_URL = "/api/tarefas";
 ```
 
-O servidor local redireciona `/api` para `http://localhost:8080`, evitando problema de CORS durante o desenvolvimento.
+O servidor local redireciona `/api` para o endereço configurado em `BACKEND_URL`, evitando problema de CORS durante o desenvolvimento.
 
 Endpoints consumidos:
 
@@ -59,9 +77,3 @@ Payload enviado em criação e edição:
   "responsavel": "Pedro"
 }
 ```
-
-## Observações sobre o back-end
-
-- A entidade possui `dataCriacao` e `dataAtualizacao`, mas o `TarefaResponseDTO` atual não retorna esses campos.
-- O endpoint `GET /tarefas/status/{status}` pode precisar de `@PathVariable("status") StatusTarefa statusTarefa` caso o Spring não consiga mapear o nome do parâmetro automaticamente.
-- Se o front for servido sem o proxy local, adicione CORS no back-end para liberar `http://localhost:5173`.

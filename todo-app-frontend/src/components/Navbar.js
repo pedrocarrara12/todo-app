@@ -6,7 +6,7 @@ export const Navbar = () => `
     </div>
     <div class="navbar__meta">
       <span>Spring Boot API</span>
-      <strong>localhost:8080</strong>
+      <strong>/api</strong>
     </div>
   </header>
 `;

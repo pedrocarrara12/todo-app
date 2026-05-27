@@ -12,6 +12,19 @@ const prioridadeClass = {
   MUITO_ALTA: "priority--urgent",
 };
 
+const escapeHtml = (value = "") =>
+  String(value).replace(/[&<>"']/g, (char) => {
+    const entities = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    };
+
+    return entities[char];
+  });
+
 const formatText = (value) => value?.replaceAll("_", " ") || "Não informado";
 
 const formatDate = (value) => {
@@ -33,21 +46,21 @@ export const TarefaCard = (tarefa) => `
     <div class="task-card__header">
       <div>
         <span class="task-card__id">#${tarefa.id}</span>
-        <h3>${tarefa.titulo}</h3>
+        <h3>${escapeHtml(tarefa.titulo)}</h3>
       </div>
-      <span class="badge ${statusClass[tarefa.status] || "badge--muted"}">${formatText(tarefa.status)}</span>
+      <span class="badge ${statusClass[tarefa.status] || "badge--muted"}">${escapeHtml(formatText(tarefa.status))}</span>
     </div>
 
-    <p class="task-card__description">${tarefa.descricao || "Sem descrição cadastrada."}</p>
+    <p class="task-card__description">${escapeHtml(tarefa.descricao || "Sem descrição cadastrada.")}</p>
 
     <dl class="task-card__details">
       <div>
         <dt>Prioridade</dt>
-        <dd class="${prioridadeClass[tarefa.prioridade] || ""}">${formatText(tarefa.prioridade)}</dd>
+        <dd class="${prioridadeClass[tarefa.prioridade] || ""}">${escapeHtml(formatText(tarefa.prioridade))}</dd>
       </div>
       <div>
         <dt>Categoria</dt>
-        <dd>${formatText(tarefa.categoria)}</dd>
+        <dd>${escapeHtml(formatText(tarefa.categoria))}</dd>
       </div>
       <div>
         <dt>Prazo</dt>
@@ -55,7 +68,7 @@ export const TarefaCard = (tarefa) => `
       </div>
       <div>
         <dt>Responsável</dt>
-        <dd>${tarefa.responsavel || "Não informado"}</dd>
+        <dd>${escapeHtml(tarefa.responsavel || "Não informado")}</dd>
       </div>
       <div>
         <dt>Criação</dt>

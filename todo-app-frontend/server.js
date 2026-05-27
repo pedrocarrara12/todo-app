@@ -3,8 +3,8 @@ import { readFile } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const PORT = 5173;
-const BACKEND_URL = "http://localhost:8080";
+const PORT = Number(process.env.PORT || 5173);
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080";
 const ROOT_DIR = fileURLToPath(new URL(".", import.meta.url));
 
 const mimeTypes = {
@@ -50,7 +50,7 @@ const proxyApiRequest = async (request, response) => {
     send(
       response,
       502,
-      JSON.stringify({ message: "Não foi possível conectar ao back-end em http://localhost:8080." }),
+      JSON.stringify({ message: `Não foi possível conectar ao back-end em ${BACKEND_URL}.` }),
       { "Content-Type": "application/json; charset=utf-8" },
     );
   }
@@ -86,4 +86,5 @@ createServer((request, response) => {
   serveStaticFile(request, response);
 }).listen(PORT, () => {
   console.log(`Front-end disponível em http://localhost:${PORT}`);
+  console.log(`Proxy da API apontando para ${BACKEND_URL}`);
 });
