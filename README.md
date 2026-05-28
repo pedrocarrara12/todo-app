@@ -301,13 +301,15 @@ No Linux/macOS:
 ./mvnw test
 ```
 
-## Sugestão de descrição para LinkedIn
+## Boas práticas aplicadas
 
-Desenvolvi uma aplicação full stack de gerenciamento de tarefas com Java 21, Spring Boot, Spring Data JPA, MySQL e JavaScript modular. O projeto conta com API REST, CRUD completo, filtros por título, responsável, status e prioridade, validações com Jakarta Bean Validation, tratamento global de exceções, DTOs para organização do contrato da API e documentação via Swagger/OpenAPI.
-
-No front-end, construí uma interface web responsiva utilizando HTML, CSS e JavaScript, consumindo a API com Fetch API e utilizando um servidor Node.js nativo como proxy local para simplificar o desenvolvimento.
-
-Esse projeto reforçou conceitos importantes de arquitetura em camadas, integração front-end/back-end, persistência relacional, validação de dados, tratamento de erros e boas práticas na construção de APIs REST.
+- Separação entre controller, service, repository, DTOs e entidade.
+- Configuração sensível fora do versionamento, usando variáveis de ambiente.
+- Arquivo `application-example.properties` para orientar a configuração local.
+- Tratamento centralizado de exceções com respostas consistentes para a API.
+- Validações no contrato de entrada da aplicação.
+- Testes configurados com H2 em memória para não depender de um MySQL local.
+- Front-end consumindo a API por meio de um proxy local em `/api`.
 
 ## Próximas melhorias
 
